@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePetTypeDto } from './dto/create-pet-type.dto';
 import { UpdatePetTypeDto } from './dto/update-pet-type.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,19 +17,27 @@ export class PetTypeService {
 
   async findAll() {
     const listPetTypes = await this.petTypeRepository.find()
-    if(!listPetTypes) throw new HttpException("Pet Types Not Found", 404);
+    if(!listPetTypes) throw new NotFoundException("Pet Types Not Found");
     return listPetTypes;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} petType`;
+  async findOne(id: string) {
+    const type = await this.petTypeRepository.findOne({ where: { pet_type_id: id } });
+    if(!type) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
+    return type;
   }
 
-  update(id: string, updatePetTypeDto: UpdatePetTypeDto) {
-    return `This action updates a #${id} petType`;
+  async update(id: string, updatePetTypeDto: UpdatePetTypeDto): Promise<PetType>{
+    const existingPetType = await this.petTypeRepository.findOne({ where: { pet_type_id: id } });
+    if(!existingPetType) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
+
+    const updatedPetType = await this.petTypeRepository.save({...existingPetType,...updatePetTypeDto });
+    return updatedPetType;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} petType`;
+ async remove(id: string) {
+    const existingPetType = await this.petTypeRepository.findOne({ where: { pet_type_id: id } });
+    if(!existingPetType) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
+    return this.petTypeRepository.delete(id);
   }
 }
