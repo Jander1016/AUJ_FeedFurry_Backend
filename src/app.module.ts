@@ -12,11 +12,11 @@ configDotenv()
   imports: [TypeOrmModule.forRoot(
     {  
       type: 'mysql',
-      host: process.env.MYSQLDB_HOST_LOCAL || process.env.MYSQLDB_USER,
-      port: +process.env.MYSQLDB_TCP_PORT_LOCAL || +process.env.MYSQLDB_TCP_PORT,
-      username: process.env.MYSQLDB_USER_LOCAL || process.env.MYSQLDB_USER,
-      password: process.env.MYSQLDB_ROOT_PASSWORD_LOCAL || process.env.MYSQLDB_ROOT_PASSWORD,
-      database: process.env.MYSQLDB_NAME_LOCAL || process.env.MYSQLDB_NAME,
+      host: process.env.MYSQLHOST ?? process.env.MYSQLDB_HOST_LOCAL,
+      port: +process.env.MYSQLPORT ?? +process.env.MYSQLDB_TCP_PORT_LOCAL,
+      username: process.env.MYSQLUSER ?? process.env.MYSQLDB_USER_LOCAL,
+      password: process.env.MYSQL_ROOT_PASSWORD ?? process.env.MYSQLDB_ROOT_PASSWORD_LOCAL,
+      database: process.env.MYSQLDATABASE ?? process.env.MYSQLDB_NAME_LOCAL,
       entities: [PetType],
       synchronize: false,
     }
