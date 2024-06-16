@@ -10,22 +10,33 @@ async function bootstrap() {
 
   app.enableCors({
     origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
-  app.useGlobalPipes(new ValidationPipe());
-  
+  app.useGlobalPipes(
+    new ValidationPipe(
+      {
+        transform: true,
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }
+    ));
+
+  app.setGlobalPrefix('/api/v1/')
+
   const config = new DocumentBuilder()
     .setTitle('API DOCUMENTATION')
     .setDescription('The Feed Furry API description')
     .setVersion('1.0')
-    .addTag('pet-type')
+    .addTag('Pet Type')
+    .addTag('Users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1/documentation', app, document);
 
   const port = PORT ?? 3000
+
   await app.listen(port, () => console.log(`listening on port ${port} in SERVER ${NODE_ENV}`));
 
 }
