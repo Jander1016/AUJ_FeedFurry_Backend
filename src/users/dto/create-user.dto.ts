@@ -8,7 +8,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   email: string;
 
-  @ApiProperty()
   password?: string;
 
   @ApiProperty()
@@ -30,9 +29,7 @@ export class CreateUserDto {
   @MaxLength(15)
   phone: string;
 
-  @ApiProperty()
   role?: string;
 
-  @ApiProperty()
   isActive: number;
 }
