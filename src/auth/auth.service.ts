@@ -11,7 +11,7 @@ export class AuthService {
     private readonly usersService: UsersService
   ) { }
 
-  async login({ email, password }: LoginDto): Promise<{data: object, acces_token: string }> {
+  async login({ email, password }: LoginDto): Promise<{data: object, token: string }> {
 
     const user = await this.usersService.findOneByEmail(email)
     if (!user) throw new UnauthorizedException(`User not found ${email}`)
@@ -23,7 +23,7 @@ export class AuthService {
 
     return {
       data: payload,
-      acces_token: await this.jwtService.signAsync(payload)
+      token: await this.jwtService.signAsync(payload)
     }
   }
 
