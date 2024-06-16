@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PetTypeModule } from './pet-type/pet-type.module';
 import { PetType } from './pet-type/entities/pet-type.entity';
 import { configDotenv } from 'dotenv';
+import { AuthModule } from './auth/auth.module';
 configDotenv()
 
 @Module({
@@ -21,7 +22,8 @@ configDotenv()
     }
   ),
     PetType,
-    PetTypeModule
+    PetTypeModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
