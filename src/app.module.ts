@@ -4,6 +4,7 @@ import { PetTypeModule } from './pet-type/pet-type.module';
 import { configDotenv } from 'dotenv';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { BreedModule } from './breed/breed.module';
 configDotenv()
 
 @Module({
@@ -21,7 +22,8 @@ configDotenv()
   ),
     PetTypeModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    BreedModule
   ]
 })
 export class AppModule { }

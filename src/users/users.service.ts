@@ -25,12 +25,30 @@ export class UsersService {
     if(existEmail) throw new BadRequestException("Email Already Exist");
 
     let password = passwordGenerated();
-    console.log(password)
+    // console.log(password)
     const hashedPassword = await generateHash(password);
 
     sendEmailClient(SMTP_EMAIL, +PORT_EMAIL, SERVER_EMAIL, PASSWORD_APLICATION, createUserDto.email , password);
 
     return await this.userRepository.save({...createUserDto, password: hashedPassword});
+  }
+
+  async recoveryPassword (email: string){
+    const findEmail = await this.userRepository.findOneBy({ email });
+    if(!findEmail) throw new NotFoundException("User Not Found");
+
+    let passwordNew = passwordGenerated();
+    // console.log(passwordNew)
+    // console.log(findEmail.password)
+    const hashedPassword = await generateHash(passwordNew);
+
+    findEmail.password = hashedPassword;
+
+    const updatedService = this.update(findEmail.user_id, findEmail);
+    
+    sendEmailClient(SMTP_EMAIL, +PORT_EMAIL, SERVER_EMAIL, PASSWORD_APLICATION, findEmail.email , passwordNew);
+
+    return updatedService;
   }
   
   async findOneByEmail(email: string) {

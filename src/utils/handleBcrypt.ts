@@ -1,4 +1,4 @@
-import { hash, compare } from "bcrypt";
+import bcrypt,{ hash, compare } from "bcrypt";
 
 
 export const generateHash = async(passwordVisible: string): Promise<string> =>{
@@ -11,3 +11,4 @@ export const generateHash = async(passwordVisible: string): Promise<string> =>{
 export const compareHash = async(passwordVisible: string, textHash : string): Promise<any> =>{
   return await compare(passwordVisible, textHash);
 }
+
