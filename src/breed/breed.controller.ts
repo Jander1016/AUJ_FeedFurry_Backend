@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BreedService } from './breed.service';
 import { CreateBreedDto } from './dto/create-breed.dto';
 import { UpdateBreedDto } from './dto/update-breed.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('breed')
+@ApiTags("Breed")
 export class BreedController {
   constructor(private readonly breedService: BreedService) {}
 
@@ -19,16 +21,16 @@ export class BreedController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.breedService.findOne(+id);
+    return this.breedService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBreedDto: UpdateBreedDto) {
-    return this.breedService.update(+id, updateBreedDto);
+    return this.breedService.update(id, updateBreedDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.breedService.remove(+id);
+    return this.breedService.remove(id);
   }
 }

@@ -10,34 +10,45 @@ export class PetTypeService {
   constructor(
     @InjectRepository(PetType)
     private readonly petTypeRepository: Repository<PetType>,
-  ){}
+  ) { }
   async create(createPetTypeDto: CreatePetTypeDto) {
     return await this.petTypeRepository.save(createPetTypeDto);
   }
 
   async findAll() {
-    const listPetTypes = await this.petTypeRepository.find()
-    if(!listPetTypes) throw new NotFoundException("Pet Types Not Found");
+    const listPetTypes = await this.petTypeRepository.find(
+      {
+        relations: {
+          breeds: true
+        }
+      }
+    )
+    if (!listPetTypes) throw new NotFoundException("Pet Types Not Found");
     return listPetTypes;
   }
 
-  async findOne(id: string) {
-    const type = await this.petTypeRepository.findOne({ where: { pet_type_id: id } });
-    if(!type) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
+   findOne(id: string) {
+    const type =  this.petTypeRepository.findOne({
+      where: { pet_type_id: id }, 
+      relations: {
+        breeds: true,
+      }
+    });
+    if (!type) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
     return type;
   }
 
-  async update(id: string, updatePetTypeDto: UpdatePetTypeDto): Promise<PetType>{
-    const existingPetType = await this.petTypeRepository.findOne({ where: { pet_type_id: id } });
-    if(!existingPetType) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
+  async update(id: string, updatePetTypeDto: UpdatePetTypeDto): Promise<PetType> {
+    const existingPetType =  this.findOne( id );
+    if (!existingPetType) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
 
-    const updatedPetType = await this.petTypeRepository.save({...existingPetType,...updatePetTypeDto });
+    const updatedPetType = await this.petTypeRepository.save({ ...existingPetType, ...updatePetTypeDto });
     return updatedPetType;
   }
 
- async remove(id: string) {
+  async remove(id: string) {
     const existingPetType = await this.petTypeRepository.findOne({ where: { pet_type_id: id } });
-    if(!existingPetType) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
+    if (!existingPetType) throw new NotFoundException(`Pet Type with id ${id} Not Found`);
     return this.petTypeRepository.delete(id);
   }
 }
