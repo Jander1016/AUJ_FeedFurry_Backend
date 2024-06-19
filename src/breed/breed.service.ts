@@ -23,7 +23,7 @@ export class BreedService {
   }
 
   async findAll() {
-    const listBreeds= this.breedRepository.find(
+    const listBreeds= await this.breedRepository.find(
       {
         relations:
         {
@@ -31,7 +31,7 @@ export class BreedService {
         }
       }
     );
-    if(!listBreeds) throw new NotFoundException("Breeds Not Found");
+    if(!listBreeds || listBreeds.length === 0) throw new NotFoundException("Breeds Not Found");
     return listBreeds;
   }
 

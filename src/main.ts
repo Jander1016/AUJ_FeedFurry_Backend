@@ -33,6 +33,7 @@ async function bootstrap() {
     .addTag('Users')
     .addTag('Auth')
     .addTag('Breed')
+    .addTag('Activities')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1/documentation', app, document);

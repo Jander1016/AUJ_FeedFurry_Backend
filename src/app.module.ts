@@ -5,6 +5,7 @@ import { configDotenv } from 'dotenv';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { BreedModule } from './breed/breed.module';
+import { ActivitiesModule } from './activities/activities.module';
 configDotenv()
 
 @Module({
@@ -23,7 +24,8 @@ configDotenv()
     PetTypeModule,
     UsersModule,
     AuthModule,
-    BreedModule
+    BreedModule,
+    ActivitiesModule
   ]
 })
 export class AppModule { }
