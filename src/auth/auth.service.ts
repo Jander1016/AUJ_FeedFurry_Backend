@@ -19,7 +19,7 @@ export class AuthService {
     const isOk = await compareHash(password, user.password)
     if (!isOk) throw new UnauthorizedException(`Authentication is not correct`)
 
-    const payload = { email: user.email, username: user.name, role: user.role }
+    const payload = {user_id: user.user_id, email: user.email, username: user.name, role: user.role }
     const token = await this.jwtService.signAsync(payload)
 
     return {
