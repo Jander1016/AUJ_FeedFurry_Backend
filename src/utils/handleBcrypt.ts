@@ -1,4 +1,4 @@
-import bcrypt,{ hash, compare } from "bcrypt";
+import { hash, compare } from "bcrypt";
 
 
 export const generateHash = async(passwordVisible: string): Promise<string> =>{
