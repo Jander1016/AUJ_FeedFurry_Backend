@@ -30,7 +30,7 @@ export class UsersController {
     return this.usersService.recoveryPassword(email);
   }
 
-  @Get(':id')
+  @Get('id/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
