@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Diet } from "src/diet/entities/diet.entity";
+import { Column, Entity, OneToMany,  PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("food")
 export class Food {
@@ -7,7 +8,7 @@ export class Food {
 
   @Column({ name: 'name', length: 50, nullable: false })
   name: string;
-  
+
   @Column({ name: 'calories', type: 'decimal', precision: 10, scale: 2, nullable: false, default: 0 })
   calories: number;
 
@@ -23,9 +24,12 @@ export class Food {
   @Column({ name: 'fiber', type: 'decimal', precision: 10, scale: 2, nullable: false, default: 0 })
   fiber: number;
 
-  @Column({ name: 'sodium', type: 'decimal', precision: 10, scale: 2, nullable: false, default: 0  })
+  @Column({ name: 'sodium', type: 'decimal', precision: 10, scale: 2, nullable: false, default: 0 })
   sodium: number;
 
   @Column({ name: 'is_active', default: 1 })
   is_active: number;
+
+  @OneToMany(() => Diet, diet => diet.food)
+  diets: Diet[]
 }

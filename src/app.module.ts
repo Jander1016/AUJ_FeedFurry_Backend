@@ -9,6 +9,7 @@ import { ActivitiesModule } from './activities/activities.module';
 import { PetConditionModule } from './pet-condition/pet-condition.module';
 import { PetModule } from './pet/pet.module';
 import { FoodModule } from './food/food.module';
+import { DietModule } from './diet/diet.module';
 configDotenv()
 
 @Module({
@@ -31,7 +32,8 @@ configDotenv()
     ActivitiesModule,
     PetConditionModule,
     PetModule,
-    FoodModule
+    FoodModule,
+    DietModule
   ]
 })
 export class AppModule { }

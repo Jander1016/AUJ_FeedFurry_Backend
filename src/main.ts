@@ -32,6 +32,7 @@ async function bootstrap() {
     .addTag('Auth')
     .addTag('Users')
     .addTag('Pet')
+    .addTag('Diet')
     .addTag('Breed')
     .addTag('Food')
     .addTag('Pet Type')

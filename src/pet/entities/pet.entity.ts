@@ -1,9 +1,9 @@
 import { PetCondition } from "src/pet-condition/entities/pet-condition.entity"
 import { PetType } from "../../pet-type/entities/pet-type.entity"
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Activity } from "src/activities/entities/activity.entity"
-import { UUID } from "typeorm/driver/mongodb/bson.typings"
 import { User } from "src/users/entities/user.entity"
+import { Diet } from "src/diet/entities/diet.entity"
 
 @Entity("pet")
 export class Pet {
@@ -56,4 +56,7 @@ export class Pet {
   @ManyToOne(() => Activity, activity => activity.pets)
   @JoinColumn({ name: 'activity_id' })
   activity: Activity
+
+  @OneToMany(() => Diet, diet=> diet.pet)
+  diets: Diet[];
 }

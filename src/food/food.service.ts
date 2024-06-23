@@ -9,11 +9,12 @@ import { Repository } from 'typeorm';
 export class FoodService {
   constructor(
     @InjectRepository(Food)
-    private readonly foodRepository: Repository<Food>,
+    private readonly foodRepository: Repository<Food>    
   ){}
-  create(createFoodDto: CreateFoodDto) {
-    return 'This action adds a new food';
-  }
+  async create(createFoodDto: CreateFoodDto) {
+    const newFood = await this.foodRepository.save(createFoodDto)
+    return newFood;
+    }
 
   async findAll() {
     const listFoods = await this.foodRepository.find()

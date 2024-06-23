@@ -52,7 +52,6 @@ export class PetService {
           condition: true,
           activity: true,
           user: true,
-          
         }
       },
     )
