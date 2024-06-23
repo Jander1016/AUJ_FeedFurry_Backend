@@ -19,7 +19,8 @@ export class PetTypeService {
     const listPetTypes = await this.petTypeRepository.find(
       {
         relations: {
-          breeds: true
+          breeds: true,
+          pets: true,
         }
       }
     )
@@ -32,6 +33,7 @@ export class PetTypeService {
       where: { pet_type_id: id }, 
       relations: {
         breeds: true,
+        pets: true,
       }
     });
     if (!type) throw new NotFoundException(`Pet Type with id ${id} Not Found`);

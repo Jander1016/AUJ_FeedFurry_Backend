@@ -4,7 +4,7 @@ import { CreatePetConditionDto } from './dto/create-pet-condition.dto';
 import { UpdatePetConditionDto } from './dto/update-pet-condition.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('pet-condition')
+@Controller('pet-conditions')
 @ApiTags('Pet Condition')
 export class PetConditionController {
   constructor(private readonly petConditionService: PetConditionService) {}

@@ -8,5 +8,6 @@ import { PetCondition } from './entities/pet-condition.entity';
   imports: [TypeOrmModule.forFeature([PetCondition])],
   controllers: [PetConditionController],
   providers: [PetConditionService],
+  exports: [PetConditionService],
 })
 export class PetConditionModule {}

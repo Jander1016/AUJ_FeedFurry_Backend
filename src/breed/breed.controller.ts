@@ -4,7 +4,7 @@ import { CreateBreedDto } from './dto/create-breed.dto';
 import { UpdateBreedDto } from './dto/update-breed.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('breed')
+@Controller('breeds')
 @ApiTags("Breed")
 export class BreedController {
   constructor(private readonly breedService: BreedService) {}

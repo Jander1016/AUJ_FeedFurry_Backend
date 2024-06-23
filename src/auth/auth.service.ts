@@ -17,13 +17,14 @@ export class AuthService {
     if (!user) throw new UnauthorizedException(`User not found ${email}`)
 
     const isOk = await compareHash(password, user.password)
-    if (!isOk) throw new UnauthorizedException(`Password is not correct`)
+    if (!isOk) throw new UnauthorizedException(`Authentication is not correct`)
 
     const payload = { email: user.email, username: user.name, role: user.role }
+    const token = await this.jwtService.signAsync(payload)
 
     return {
       data: payload,
-      token: await this.jwtService.signAsync(payload)
+      token
     }
   }
 
