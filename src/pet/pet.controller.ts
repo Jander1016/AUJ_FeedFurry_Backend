@@ -31,6 +31,6 @@ export class PetController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.petService.remove(id, true);
+    return this.petService.remove(id);
   } 
 }

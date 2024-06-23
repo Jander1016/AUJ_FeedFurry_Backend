@@ -78,7 +78,7 @@ export class PetService {
     return updatedPet;
   }
 
-  remove(id: string, updatePetDto: UpdatePetDto) {
+  remove(id: string) {
     return `This action removes a #${id} pet`;
   }
 }

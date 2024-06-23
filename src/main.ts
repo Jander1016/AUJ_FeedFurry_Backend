@@ -26,17 +26,17 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1/')
 
   const config = new DocumentBuilder()
-    .setTitle('API DOCUMENTATION')
-    .setDescription('The Feed Furry API description')
+    .setTitle('THE FEED FURRY API DOCUMENTATION')
+    .setDescription('The Feed Furry API')
     .setVersion('1.0')
-    .addTag('Pet Type')
-    .addTag('Users')
     .addTag('Auth')
+    .addTag('Users')
+    .addTag('Pet')
     .addTag('Breed')
+    .addTag('Food')
+    .addTag('Pet Type')
     .addTag('Activities')
     .addTag('Pet Condition')
-    .addTag('Pet')
-    .addTag('Food')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1/documentation', app, document);
