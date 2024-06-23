@@ -1,4 +1,5 @@
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Pet } from "src/pet/entities/pet.entity";
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "users"})
 export class User {
@@ -25,4 +26,7 @@ export class User {
 
   @Column({ name: "is_active", default: 1 })
   is_active: number;
+
+  @OneToMany(()=>Pet, (pet)=> pet.user)
+  pets: Pet[];
 }

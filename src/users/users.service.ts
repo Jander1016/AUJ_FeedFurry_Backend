@@ -18,59 +18,70 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
-  ){}
- 
+  ) { }
+
   async create(createUserDto: CreateUserDto) {
     const existEmail = await this.userRepository.findOneBy({ email: createUserDto.email });
-    if(existEmail) throw new BadRequestException("Email Already Exist");
+    if (existEmail) throw new BadRequestException("Email Already Exist");
 
     let password = passwordGenerated();
     // console.log(password)
     const hashedPassword = await generateHash(password);
 
-    sendEmailClient(SMTP_EMAIL, +PORT_EMAIL, SERVER_EMAIL, PASSWORD_APLICATION, createUserDto.email , password);
+    sendEmailClient(SMTP_EMAIL, +PORT_EMAIL, SERVER_EMAIL, PASSWORD_APLICATION, createUserDto.email, password);
 
-    return await this.userRepository.save({...createUserDto, password: hashedPassword});
+    return await this.userRepository.save({ ...createUserDto, password: hashedPassword });
   }
 
-  async recoveryPassword (email: string){
+  async recoveryPassword(email: string) {
     const findEmail = await this.userRepository.findOneBy({ email });
-    if(!findEmail) throw new NotFoundException("User Not Found");
+    if (!findEmail) throw new NotFoundException("User Not Found");
 
     let passwordNew = passwordGenerated();
-    // console.log(passwordNew)
-    // console.log(findEmail.password)
     const hashedPassword = await generateHash(passwordNew);
 
     findEmail.password = hashedPassword;
 
     const updatedService = this.update(findEmail.user_id, findEmail);
-    
-    sendEmailClient(SMTP_EMAIL, +PORT_EMAIL, SERVER_EMAIL, PASSWORD_APLICATION, findEmail.email , passwordNew);
+
+    sendEmailClient(SMTP_EMAIL, +PORT_EMAIL, SERVER_EMAIL, PASSWORD_APLICATION, findEmail.email, passwordNew);
 
     return updatedService;
   }
-  
+
   async findOneByEmail(email: string) {
-    const findEmail = await this.userRepository.findOneBy({ email });
-    if(!findEmail) throw new NotFoundException("User Not Found");
+    const findEmail = await this.userRepository.findOneBy(
+      { email }
+    );
+    if (!findEmail) throw new NotFoundException("User Not Found");
     return findEmail;
   }
   async findAll() {
-    const userList = await this.userRepository.find();
-    if(!userList || userList.length === 0) throw new NotFoundException("Users Not Found");
+    const userList = await this.userRepository.find(
+      {
+        relations: {
+          pets: true,
+        },
+      }
+    );
+    if (!userList || userList.length === 0) throw new NotFoundException("Users Not Found");
     return userList;
   }
 
   async findOne(id: string) {
-    const exist = await this.userRepository.findOne({where:{ user_id:id } });
-    if(!exist) throw new NotFoundException(`User with id ${id} Not Found`);
+    const exist = await this.userRepository.findOne({
+      where: { user_id: id },
+      relations: {
+        pets: true,
+      }
+    });
+    if (!exist) throw new NotFoundException(`User with id ${id} Not Found`);
     return exist;
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
     const userFound = this.findOne(id)
-    const updatedUser = this.userRepository.save({...userFound,...updateUserDto });
+    const updatedUser = this.userRepository.save({ ...userFound, ...updateUserDto });
     return updatedUser;
   }
 

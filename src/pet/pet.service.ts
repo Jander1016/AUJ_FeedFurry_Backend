@@ -22,12 +22,25 @@ export class PetService {
         relations: {
           petType: true,
           condition: true,
-          activity: true
+          activity: true,
+          user:true
         }
       },
     );
     if (!listPets || listPets.length === 0) throw new NotFoundException("Pets Not Found");
-    return listPets;
+
+    const result = listPets.map(pet => ({
+      ...pet,
+      user: {
+        user_id: pet.user.user_id,
+        name: pet.user.name,
+        lastname: pet.user.lastname,
+        email: pet.user.email,
+        phone: pet.user.phone,
+        role: pet.user.role
+      }
+    }));
+    return result;
   }
 
   async findOne(id: string) {
@@ -37,12 +50,25 @@ export class PetService {
         relations: {
           petType: true,
           condition: true,
-          activity: true
+          activity: true,
+          user: true,
+          
         }
       },
     )
     if (!existingPet) throw new NotFoundException(`Pet with id ${id} Not Found`);
-    return existingPet;
+    const result = [existingPet]?.map(pet => ({
+      ...pet,
+      user: {
+        user_id: pet.user.user_id,
+        name: pet.user.name,
+        lastname: pet.user.lastname,
+        email: pet.user.email,
+        phone: pet.user.phone,
+        role: pet.user.role
+      }
+    }));
+    return result;
   }
 
   async update(id: string, updatePetDto: UpdatePetDto) {

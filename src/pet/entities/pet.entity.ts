@@ -2,6 +2,8 @@ import { PetCondition } from "src/pet-condition/entities/pet-condition.entity"
 import { PetType } from "../../pet-type/entities/pet-type.entity"
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { Activity } from "src/activities/entities/activity.entity"
+import { UUID } from "typeorm/driver/mongodb/bson.typings"
+import { User } from "src/users/entities/user.entity"
 
 @Entity("pet")
 export class Pet {
@@ -36,6 +38,13 @@ export class Pet {
 
   @Column({ name: 'ratio', type: 'decimal', precision: 10, scale: 2, nullable: false })
   ratio: number
+  
+  @Column({ name: 'user_id', length: 40, nullable: false})
+  user_id: string
+
+  @ManyToOne(()=> User, (user) => user.pets)
+  @JoinColumn({ name: 'user_id' })
+  user: User
 
   @Column({ name: 'is_active', default: 1 })
   is_active: number
