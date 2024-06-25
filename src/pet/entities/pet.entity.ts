@@ -27,7 +27,7 @@ export class Pet {
   @Column({ name: 'weight', type: 'decimal', precision: 10, scale: 2, nullable: false })
   weight: number
 
-  @Column({ name: 'age', type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @Column({ name: 'age',  nullable: false })
   age: number
 
   @Column({ name: 'condition_id', length: 40, nullable: false })

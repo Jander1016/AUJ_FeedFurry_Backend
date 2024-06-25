@@ -4,6 +4,7 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
+import { AGE_FACTOR } from 'src/utils/tableAgeFactor';
 
 @Injectable()
 export class PetService {
@@ -12,7 +13,18 @@ export class PetService {
     private readonly petRepository: Repository<Pet>
   ) { }
   async create(createPetDto: CreatePetDto) {
-    const newPet = await this.petRepository.save(createPetDto);
+   
+    const createPet = await this.petRepository.save(createPetDto);
+
+    const findPet = await this.findOne( createPet.pet_id  );
+    
+    const ageFactor= AGE_FACTOR.find(item => item.age === createPet.age)
+    
+    const kleiber: number = 70 * Math.pow(createPet.weight, 0.75);
+    const metabolicRate: number =   kleiber * findPet[0].activity.factor_value * findPet[0].condition.factor_value * ageFactor.factor;
+    
+    const newPet = await this.petRepository.save({...createPet, ratio: metabolicRate})
+    
     return newPet;
   }
 
