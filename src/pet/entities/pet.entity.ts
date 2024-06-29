@@ -4,17 +4,20 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Activity } from "src/activities/entities/activity.entity"
 import { User } from "src/users/entities/user.entity"
 import { Diet } from "src/diet/entities/diet.entity"
+import { IsDecimal, IsUUID } from "class-validator"
 
 @Entity("pet")
 export class Pet {
 
   @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
   pet_id: string
 
   @Column({ name: 'name', length: 50, nullable: false })
   name: string
 
   @Column({ name: 'pet_type_id', length: 40, nullable: false })
+  @IsUUID()
   pet_type_id: string
 
   @ManyToOne(() => PetType, (petType) => petType.breeds)
@@ -25,6 +28,7 @@ export class Pet {
   genre: string
 
   @Column({ name: 'weight', type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @IsDecimal()
   weight: number
 
   @Column({ name: 'age',  nullable: false })
@@ -37,9 +41,11 @@ export class Pet {
   activity_id: string
 
   @Column({ name: 'ratio', type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @IsDecimal()
   ratio: number
   
   @Column({ name: 'user_id', length: 40, nullable: false})
+  @IsUUID()
   user_id: string
 
   @ManyToOne(()=> User, (user) => user.pets)

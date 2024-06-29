@@ -30,6 +30,6 @@ export class Food {
   @Column({ name: 'is_active', default: 1 })
   is_active: number;
 
-  @OneToMany(() => Diet, diet => diet.food)
-  diets: Diet[]
+//   @OneToMany(() => Diet, diet => diet.food)
+//   diets: Diet[]
 }

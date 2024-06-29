@@ -19,9 +19,8 @@ export class DietService {
   async findAll() {
     const listDiets = await this.dietRepository.find(
       {
-        relations: {
-          pet: true,
-          food: true
+        relations: { 
+          pet: true
         },
       }
     )
@@ -34,8 +33,7 @@ export class DietService {
       {
         where: { diet_id: id },
         relations: {
-          pet: true,
-          food: true
+          pet: true
         },
       }
     )
@@ -44,13 +42,16 @@ export class DietService {
   }
 
   async update(id: string, updateDietDto: UpdateDietDto) {
-    const existingFood = await this.findOne(id)
-    if (!existingFood) throw new NotFoundException(`Food with id ${id} Not Found`);
-    const updatedDiet = this.dietRepository.save({...existingFood,...updateDietDto });
+    const existingDiet = await this.findOne(id)
+    if (!existingDiet) throw new NotFoundException(`Food with id ${id} Not Found`);
+    const updatedDiet = this.dietRepository.save({...existingDiet,...updateDietDto });
     return updatedDiet;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} diet`;
+  async remove(id: string) {
+    const findDiet = this.findOne(id)
+    if (!findDiet) throw new NotFoundException(`Diet with id ${id} Not Found`);
+    const deleteDiet = await this.dietRepository.save({...findDiet, is_active : 0});
+    return deleteDiet;
   }
 }

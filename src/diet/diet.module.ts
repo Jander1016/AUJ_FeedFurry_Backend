@@ -4,10 +4,9 @@ import { DietController } from './diet.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Diet } from './entities/diet.entity';
 import { PetModule } from 'src/pet/pet.module';
-import { FoodModule } from 'src/food/food.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Diet]), PetModule, FoodModule],
+  imports:[TypeOrmModule.forFeature([Diet]), PetModule],
   controllers: [DietController],
   providers: [DietService],
   exports: [DietService],
