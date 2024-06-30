@@ -93,10 +93,10 @@ export class UsersService {
       }
     });
     if (!exist) throw new NotFoundException(`User with id ${id} Not Found`);
-    const usersPets = [exist].map(user => ({
-      ...user,
-       pets: user.pets.filter(pet=> pet.is_active === 1)
-     }));
+    const usersPets = {
+      ...exist,
+       pets: exist.pets.filter(pet=> pet.is_active === 1)
+     };
      return usersPets;
   }
 
