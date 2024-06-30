@@ -52,9 +52,11 @@ export class UsersService {
   async findOneByEmail(email: string) {
     const findEmail = await this.userRepository.findOne(
       {
-        where: { email },
+        where: { email, is_active: 1 },
         relations: {
-          pets: true,
+          pets: {
+            diets :true
+          }
         }
       }
 
@@ -65,8 +67,11 @@ export class UsersService {
   async findAll() {
     const userList = await this.userRepository.find(
       {
+        where: { is_active: 1 },
         relations: {
-          pets: true,
+          pets: {
+            diets :true
+          }
         },
       }
     );
@@ -76,9 +81,11 @@ export class UsersService {
 
   async findOne(id: string) {
     const exist = await this.userRepository.findOne({
-      where: { user_id: id },
+      where: { user_id: id, is_active: 1 },
       relations: {
-        pets: true,
+        pets: {
+          diets :true
+        }
       }
     });
     if (!exist) throw new NotFoundException(`User with id ${id} Not Found`);
@@ -92,6 +99,12 @@ export class UsersService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} user`;
+    const existUser = this.userRepository.findOne(
+      {
+        where: { user_id: id, is_active: 1 },
+      }
+    );
+    const deletedUser = this.userRepository.save({ ...existUser, is_active: 0 });
+    return deletedUser;
   }
 }
