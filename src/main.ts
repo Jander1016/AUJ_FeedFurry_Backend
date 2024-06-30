@@ -38,6 +38,7 @@ async function bootstrap() {
     .addTag('Pet Type')
     .addTag('Activities')
     .addTag('Pet Condition')
+    .addTag('Detail Diet')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1/documentation', app, document);

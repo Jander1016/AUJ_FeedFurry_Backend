@@ -1,4 +1,5 @@
-import { Diet } from "src/diet/entities/diet.entity";
+// import { DetailDiet } from "src/detail-diet/entities/detail-diet.entity";
+import { DetailDiet } from "src/detail-diet/entities/detail-diet.entity";
 import { Column, Entity, OneToMany,  PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("food")
@@ -30,6 +31,6 @@ export class Food {
   @Column({ name: 'is_active', default: 1 })
   is_active: number;
 
-//   @OneToMany(() => Diet, diet => diet.food)
-//   diets: Diet[]
+  // @OneToMany(() => DetailDiet, detailDiet => detailDiet.food)
+  // detailDiets: DetailDiet[]
 }

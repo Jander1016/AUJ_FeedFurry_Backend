@@ -17,7 +17,7 @@ export class FoodService {
     }
 
   async findAll() {
-    const listFoods = await this.foodRepository.find()
+    const listFoods = await this.foodRepository.find({ where: { is_active: 1 }})
     if(!listFoods || listFoods.length === 0) throw new NotFoundException("Foods Not Found");
     return listFoods;
   }
@@ -25,7 +25,10 @@ export class FoodService {
   async findOne(id: string) {
     const existingFood = await this.foodRepository.findOne(
       {
-        where: { food_id: id }
+        where: { 
+          food_id: id,
+          is_active: 1
+         }
       }
     )
     if(!existingFood) throw new NotFoundException(`Food with id ${id} Not Found`);

@@ -9,7 +9,7 @@ import { Pet } from './entities/pet.entity';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pet]), PetTypeModule,PetConditionModule, ActivitiesModule, UsersModule],
+  imports: [TypeOrmModule.forFeature([Pet]), PetTypeModule, PetConditionModule, ActivitiesModule, UsersModule],
   controllers: [PetController],
   providers: [PetService],
   exports: [PetService],

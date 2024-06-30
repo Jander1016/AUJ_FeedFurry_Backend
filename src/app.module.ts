@@ -10,6 +10,7 @@ import { PetConditionModule } from './pet-condition/pet-condition.module';
 import { PetModule } from './pet/pet.module';
 import { FoodModule } from './food/food.module';
 import { DietModule } from './diet/diet.module';
+import { DetailDietModule } from './detail-diet/detail-diet.module';
 configDotenv()
 
 @Module({
@@ -22,7 +23,7 @@ configDotenv()
       password: process.env.MYSQL_ROOT_PASSWORD ?? process.env.MYSQLDB_ROOT_PASSWORD_LOCAL,
       database: process.env.MYSQLDATABASE ?? process.env.MYSQLDB_NAME_LOCAL,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
     }
   ),
     PetTypeModule,
@@ -33,7 +34,8 @@ configDotenv()
     PetConditionModule,
     PetModule,
     FoodModule,
-    DietModule
+    DietModule,
+    DetailDietModule
   ]
 })
 export class AppModule { }
