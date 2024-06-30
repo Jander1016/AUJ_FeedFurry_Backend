@@ -69,14 +69,18 @@ export class UsersService {
       {
         where: { is_active: 1 },
         relations: {
-          pets: {
+          pets:{
             diets :true
           }
         },
       }
     );
     if (!userList || userList.length === 0) throw new NotFoundException("Users Not Found");
-    return userList;
+    const usersPets = userList.map(user => ({
+     ...user,
+      pets: user.pets.filter(pet=> pet.is_active === 1)
+    }));
+    return usersPets;
   }
 
   async findOne(id: string) {
