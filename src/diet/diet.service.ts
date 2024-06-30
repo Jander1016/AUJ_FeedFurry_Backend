@@ -55,8 +55,8 @@ export class DietService {
         const detailDiet = new DetailDiet();
         detailDiet.diet = savedDiet;
         detailDiet.food = food;
-        detailDiet.diet_id = savedDiet.diet_id; // Set the diet_id
-        detailDiet.food_id = food.food_id; // Set the food_id
+        detailDiet.diet_id = savedDiet.diet_id; 
+        detailDiet.food_id = food.food_id; 
         return detailDiet;
       });
       const saveDetailDiet = await this.detailDietRepository.save(detailDietEntries);
@@ -156,11 +156,13 @@ export class DietService {
   // }
 
   async remove(id: string) {
-    const findDiet = await this.findOne(id);
+    const findDiet = await this.detailDietRepository.findOne({
+      where: { diet_id: id }
+    });
     if (!findDiet) {
       throw new NotFoundException(`Diet with id ${id} Not Found`);
     }
-    findDiet.is_active = 0;
-    return this.dietRepository.save(findDiet);
+    const deletedDiet = await this.dietRepository.save({...findDiet, is_active: 0});
+    return deletedDiet
   }
 }
