@@ -3,6 +3,8 @@ import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { compareHash } from 'src/utils/handleBcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/entities/user.entity';
+import RequestWhitUser from './interface/auth.interface';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +28,10 @@ export class AuthService {
       data: payload,
       token
     }
+  }
+
+  async profile ({user}: RequestWhitUser){    
+    return await this.usersService.findOneByEmail(user.email)
   }
 
 }
