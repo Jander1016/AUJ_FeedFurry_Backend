@@ -107,9 +107,13 @@ export class PetService {
   }
 
   async remove(id: string) {
-    const existingPet = await this.findOne(id);
+    const existingPet = await this.petRepository.findOne(
+      {
+        where:{pet_id:id}
+      }
+    );
     if (!existingPet) throw new NotFoundException(`Pet with id ${id} Not Found`);
-    const deletePet = await this.petRepository.save({...existingPet, is_active: 0});
+    const deletePet = await this.petRepository.save({...existingPet, is_active: 0 });
     return deletePet
   }
 }
